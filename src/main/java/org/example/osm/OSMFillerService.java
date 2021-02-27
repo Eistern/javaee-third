@@ -24,6 +24,9 @@ public class OSMFillerService {
     @Autowired
     private NodeRepository nodeRepository;
 
+    @Autowired
+    private OSMFillerConfiguration configuration;
+
     @PostConstruct
     public void fillDatabase() throws XMLStreamException, IOException, JAXBException {
         InputStream archivedStream = Main.class.getClassLoader().getResourceAsStream("RU-NVS.osm.bz2");
@@ -32,7 +35,7 @@ public class OSMFillerService {
         List<Node> parsedNodes;
         List<org.example.data.Node> converted = new ArrayList<>();
         log.info("Started parsing...");
-        if (!(parsedNodes = xmlProcessor.unmarshalNextNodes(100)).isEmpty()) {
+        if (!(parsedNodes = xmlProcessor.unmarshalNextNodes(configuration.getNodes())).isEmpty()) {
             for (Node parsed : parsedNodes) {
                 converted.add(org.example.data.Node.fromGenerated(parsed));
             }

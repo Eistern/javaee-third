@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -70,5 +71,14 @@ public class NodeRestController {
         }
         nodeRepository.deleteById(node.getId());
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/find")
+    public ResponseEntity<List<Node>> find(@RequestBody RadiusRequestDTO requestDTO) {
+        List<Node> inRegion = nodeRepository.findInRegion(requestDTO.getLat(), requestDTO.getLon(), requestDTO.getRadius());
+        if (inRegion.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(inRegion, HttpStatus.OK);
     }
 }
