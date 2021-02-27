@@ -62,6 +62,9 @@ public class NodeRestController {
         if (node.getVisible() != null) {
             existingNode.setVisible(node.getVisible());
         }
+        if (node.getTags() != null) {
+            existingNode.setTags(node.getTags());
+        }
         return new ResponseEntity<>(nodeRepository.save(existingNode), HttpStatus.OK);
     }
 

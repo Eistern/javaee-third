@@ -3,12 +3,14 @@ package org.example.data;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 @Entity
 @Data
@@ -17,6 +19,9 @@ import java.util.GregorianCalendar;
 public class Node {
     @Id
     private final BigInteger id;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Tag> tags;
 
     private Double lat;
     private Double lon;
@@ -37,6 +42,13 @@ public class Node {
         node.timestamp = generated.getTimestamp().toGregorianCalendar();
         node.visible = generated.isVisible();
         node.changeset = generated.getChangeset();
+
+        List<Tag> tags = new ArrayList<>();
+        for (org.example.genearated.Tag generatedTag : generated.getTag()) {
+            tags.add(Tag.fromGenerated(generatedTag));
+        }
+        node.tags = tags;
+
         return node;
     }
 }

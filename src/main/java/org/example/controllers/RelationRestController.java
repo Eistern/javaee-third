@@ -55,6 +55,9 @@ public class RelationRestController {
         if (relation.getVisible() != null) {
             existingRelation.setVisible(relation.getVisible());
         }
+        if (relation.getTags() != null) {
+            existingRelation.setTags(relation.getTags());
+        }
         return new ResponseEntity<>(relationRepository.save(existingRelation), HttpStatus.OK);
     }
 

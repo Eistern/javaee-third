@@ -3,11 +3,10 @@ package org.example.data;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 @Entity
 @Data
@@ -15,6 +14,9 @@ import java.util.GregorianCalendar;
 public class Way {
     @Id
     private final BigInteger id;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Tag> tags;
 
     @Column(name = "username")
     private String user;

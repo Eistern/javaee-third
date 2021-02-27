@@ -56,6 +56,9 @@ public class WayRestController {
         if (way.getVisible() != null) {
             existingWay.setVisible(way.getVisible());
         }
+        if (way.getTags() != null) {
+            existingWay.setTags(way.getTags());
+        }
         return new ResponseEntity<>(wayRepository.save(existingWay), HttpStatus.OK);
     }
 
