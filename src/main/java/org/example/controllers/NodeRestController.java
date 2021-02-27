@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,9 +22,9 @@ public class NodeRestController {
         return nodeRepository.save(node);
     }
 
-    @GetMapping(path = "/find")
-    public ResponseEntity<Node> read(@RequestBody Node node) {
-        Optional<Node> nodeOptional = nodeRepository.findById(node.getId());
+    @GetMapping(path = "/get")
+    public ResponseEntity<Node> read(@RequestParam long id) {
+        Optional<Node> nodeOptional = nodeRepository.findById(BigInteger.valueOf(id));
         if (nodeOptional.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
